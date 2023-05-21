@@ -1,26 +1,14 @@
-import Head from "next/head";
 import MeetupList from "../components/meetups/MeetupList";
 import { MongoClient } from "mongodb";
-import { Fragment } from "react";
 
 const HomePage = (props) => {
-  return (
-    <Fragment>
-      <Head>
-        <title>React Meetups</title>
-        <meta
-          name="description"
-          content="Browse a hugh list of highly active React meetups!"
-        />
-      </Head>
-      <MeetupList meetups={props.meetups} />
-    </Fragment>
-  );
+  return <MeetupList meetups={props.meetups} />;
 };
 
 export const getStaticProps = async () => {
   // fetch data from an API
-  const mongodbURI = process.env.MONGODB_URI;
+  const mongodbURI =
+    "mongodb+srv://habohsu930mongodb:GSTsokgyWawejPBc@meetup-cluster-0.dy9ziyv.mongodb.net/meetups?retryWrites=true&w=majority";
   const mongoClient = await MongoClient.connect(mongodbURI);
   const db = mongoClient.db();
 
