@@ -1,6 +1,7 @@
 .DS_STORE
 node_modules
 .next
+.env
 scripts/flow/*/.flowconfig
 .flowconfig
 *~
@@ -24,7 +25,6 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx
