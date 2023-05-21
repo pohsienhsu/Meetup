@@ -20,8 +20,7 @@ const HomePage = (props) => {
 
 export const getStaticProps = async () => {
   // fetch data from an API
-  const mongodbURI =
-    "mongodb+srv://habohsu930mongodb:GSTsokgyWawejPBc@meetup-cluster-0.dy9ziyv.mongodb.net/meetups?retryWrites=true&w=majority";
+  const mongodbURI = process.env.MONGODB_URI;
   const mongoClient = await MongoClient.connect(mongodbURI);
   const db = mongoClient.db();
 
