@@ -1,23 +1,5 @@
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "A First Meetup",
-    image:
-      "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-    address: "Some address 5, 12345 Some City",
-    description: "This is a first meetup!",
-  },
-  {
-    id: "m2",
-    title: "A Second Meetup",
-    image:
-      "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-    address: "Some address 5, 12345 Some City",
-    description: "This is a second meetup!",
-  },
-];
+import { MongoClient } from "mongodb";
 
 const HomePage = (props) => {
   return <MeetupList meetups={props.meetups} />;
@@ -25,9 +7,26 @@ const HomePage = (props) => {
 
 export const getStaticProps = async () => {
   // fetch data from an API
+  const mongodbURI =
+    "mongodb+srv://habohsu930mongodb:GSTsokgyWawejPBc@meetup-cluster-0.dy9ziyv.mongodb.net/meetups?retryWrites=true&w=majority";
+  const mongoClient = await MongoClient.connect(mongodbURI);
+  const db = mongoClient.db();
+
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+
+  mongoClient.close();
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetups.map((meetup) => {
+        return {
+          title: meetup.title,
+          address: meetup.address,
+          image: meetup.image,
+          id: meetup._id.toString(),
+        };
+      }),
     },
     revalidate: 1,
   };
