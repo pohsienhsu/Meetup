@@ -1,27 +1,21 @@
 import { Fragment } from "react";
-import Head from "next/head";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 import { MongoClient, ObjectId } from "mongodb";
 
 const MeetupDetailsPage = (props) => {
   return (
-    <Fragment>
-      <Head>
-        <title>{props.meetupData.title}</title>
-        <meta name="description" content={props.meetupData.description} />
-      </Head>
-      <MeetupDetail
-        image={props.meetupData.image}
-        title={props.meetupData.title}
-        address={props.meetupData.address}
-        description={props.meetupData.description}
-      />
-    </Fragment>
+    <MeetupDetail
+      image={props.meetupData.image}
+      title={props.meetupData.title}
+      address={props.meetupData.address}
+      description={props.meetupData.description}
+    />
   );
 };
 
 export const getStaticPaths = async () => {
-  const mongoURI = process.env.MONGODB_URI;
+  const mongoURI =
+    "mongodb+srv://habohsu930mongodb:GSTsokgyWawejPBc@meetup-cluster-0.dy9ziyv.mongodb.net/meetups?retryWrites=true&w=majority";
   const mongoClient = await MongoClient.connect(mongoURI);
   const mongoDb = mongoClient.db();
 
@@ -31,7 +25,7 @@ export const getStaticPaths = async () => {
   mongoClient.close();
 
   return {
-    fallback: "blocking",
+    fallback: false,
     paths: meetupIds.map((meetup) => {
       return {
         params: {
@@ -47,7 +41,8 @@ export const getStaticProps = async (context) => {
   console.log(meetupId);
 
   // fetch data for a single meetup
-  const mongoURI = process.env.MONGODB_URI;
+  const mongoURI =
+    "mongodb+srv://habohsu930mongodb:GSTsokgyWawejPBc@meetup-cluster-0.dy9ziyv.mongodb.net/meetups?retryWrites=true&w=majority";
   const mongoClient = await MongoClient.connect(mongoURI);
   const mongoDb = mongoClient.db();
 
